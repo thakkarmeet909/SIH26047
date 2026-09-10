@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CasePad — Patient Case Taking & Admin Portal</title>
+  <meta name="description" content="CasePad — Modern patient case-taking software with Doctor Admin Access and Hybrid Dark-Light design." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="hybrid-theme">
+
+  <!-- ═══════════════ SIDEBAR (DARK SLATE THEME) ═══════════════ -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="8" fill="#0D9488"/>
+          <path d="M14 6v16M8 10h4v8H8zM16 10h4v8h-4z" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">CasePad</span>
+        <span class="brand-tag">PRO ADMIN</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <button class="nav-item active" data-view="dashboard" id="nav-dashboard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="patients" id="nav-patients">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <span>Patients Directory</span>
+      </button>
+
+      <div class="nav-section-label">Clinical Case Taking</div>
+      <button class="nav-item" data-view="new-case" id="nav-new-case">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <span>New Case Record</span>
+      </button>
+      <button class="nav-item" data-view="case-history" id="nav-case-history">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>All Case Records</span>
+      </button>
+
+      <div class="nav-section-label admin-only">Doctor Admin Controls</div>
+      <button class="nav-item admin-only" data-view="settings" id="nav-settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>Clinic &amp; Admin Config</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="doctor-profile">
+        <div class="doctor-avatar" id="user-avatar">DR</div>
+        <div class="doctor-info">
+          <span class="doctor-name" id="user-display-name">Dr. Sharma</span>
+          <span class="doctor-role-badge" id="user-role-badge">Doctor (Admin)</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <main id="main-content" class="main-content">
+
+    <!-- ── TOP BAR (DARK HYBRID ACCENT) ── -->
+    <header class="topbar">
+      <button id="sidebar-toggle" class="sidebar-toggle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <div class="topbar-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="global-search" placeholder="Search patients, phone, diagnosis… (Ctrl+K)" />
+      </div>
+
+      <!-- Access Control Role Switcher -->
+      <div class="role-selector-wrap">
+        <label for="role-select">Access Mode:</label>
+        <select id="role-select" class="role-select-pill">
+          <option value="doctor_admin">👑 Doctor (Admin Access)</option>
+          <option value="staff_reception">📋 Reception / Staff Mode</option>
+        </select>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="topbar-btn btn-primary" id="btn-add-patient-top">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>+ Add Patient</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ── VIEW: DASHBOARD ── -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="view-dashboard" class="view active">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Clinical Command Center</h1>
+          <p class="view-subtitle" id="dashboard-welcome">Active Admin Session: Full Patient Management &amp; Case Authority Enabled</p>
+        </div>
+        <div class="view-header-date">
+          <span id="current-date"></span>
+        </div>
+      </div>
+
+      <!-- KPI Cards (Hybrid Dark Accents) -->
+      <div class="kpi-grid">
+        <div class="kpi-card" id="kpi-total-patients">
+          <div class="kpi-icon kpi-icon--teal">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="kpi-data">
+            <span class="kpi-value" data-target="1248">0</span>
+            <span class="kpi-label">Registered Patients</span>
+          </div>
+        </div>
+        <div class="kpi-card" id="kpi-cases-today">
+          <div class="kpi-icon kpi-icon--emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="kpi-data">
+            <span class="kpi-value" data-target="12">0</span>
+            <span class="kpi-label">Cases Taken Today</span>
+          </div>
+        </div>
+        <div class="kpi-card" id="kpi-pending">
+          <div class="kpi-icon kpi-icon--amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="kpi-data">
+            <span class="kpi-value" data-target="5">0</span>
+            <span class="kpi-label">Doctor Review Pending</span>
+          </div>
+        </div>
+        <div class="kpi-card" id="kpi-this-month">
+          <div class="kpi-icon kpi-icon--indigo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="kpi-data">
+            <span class="kpi-value" data-target="87">0</span>
+            <span class="kpi-label">Monthly Case Records</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <div class="card card--large">
+          <div class="card-header">
+            <h2 class="card-title">Recent Clinical Cases</h2>
+            <button class="card-action" id="btn-view-all-cases">View All Cases</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="recent-cases-table">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Age / Sex</th>
+                  <th>Chief Complaint</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Admin Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Doctor Follow-up Schedule</h2>
+          </div>
+          <div class="followup-list" id="followup-list">
+            <div class="followup-item">
+              <div class="followup-date-badge">
+                <span class="followup-day">11</span>
+                <span class="followup-month">Sep</span>
+              </div>
+              <div class="followup-info">
+                <span class="followup-name">Priya Sinha</span>
+                <span class="followup-reason">Headache re-evaluation &amp; MRI review</span>
+              </div>
+              <span class="followup-time">10:30 AM</span>
+            </div>
+            <div class="followup-item">
+              <div class="followup-date-badge">
+                <span class="followup-day">12</span>
+                <span class="followup-month">Sep</span>
+              </div>
+              <div class="followup-info">
+                <span class="followup-name">Anil Verma</span>
+                <span class="followup-reason">Endoscopy report &amp; dosage adjustment</span>
+              </div>
+              <span class="followup-time">11:00 AM</span>
+            </div>
+            <div class="followup-item">
+              <div class="followup-date-badge">
+                <span class="followup-day">14</span>
+                <span class="followup-month">Sep</span>
+              </div>
+              <div class="followup-info">
+                <span class="followup-name">Mohit Kumar</span>
+                <span class="followup-reason">Rheumatoid factor lab review</span>
+              </div>
+              <span class="followup-time">2:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ── VIEW: PATIENTS DIRECTORY ── -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="view-patients" class="view">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Patient Directory &amp; Manual Entry</h1>
+          <p class="view-subtitle">Search, view, register, or manage complete patient records</p>
+        </div>
+        <button class="btn btn--primary" id="btn-add-patient-main">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          + Manual Patient Entry
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="table-filters">
+            <div class="filter-search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="patient-search" placeholder="Search patient name, phone, ID..." />
+            </div>
+            <select class="filter-select" id="patient-filter-gender">
+              <option value="">All Genders</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="patients-table">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Patient ID</th>
+                <th>Age / Sex</th>
+                <th>Phone</th>
+                <th>Govt ID / Aadhaar</th>
+                <th>Registered Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ── VIEW: NEW CASE FORM (10-STEP CLINICAL TAKING) ── -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="view-new-case" class="view">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">New Patient Case Record</h1>
+          <p class="view-subtitle">Comprehensive multi-specialty clinical history taking</p>
+        </div>
+      </div>
+
+      <!-- Stepper -->
+      <div class="stepper" id="case-stepper">
+        <div class="stepper-track"><div class="stepper-fill" id="stepper-fill"></div></div>
+        <div class="stepper-steps">
+          <button class="step active" data-step="0"><span class="step-num">1</span><span class="step-label">Demographics</span></button>
+          <button class="step" data-step="1"><span class="step-num">2</span><span class="step-label">Chief Complaint</span></button>
+          <button class="step" data-step="2"><span class="step-num">3</span><span class="step-label">HPI</span></button>
+          <button class="step" data-step="3"><span class="step-num">4</span><span class="step-label">Past History</span></button>
+          <button class="step" data-step="4"><span class="step-num">5</span><span class="step-label">Family Hx</span></button>
+          <button class="step" data-step="5"><span class="step-num">6</span><span class="step-label">Personal Hx</span></button>
+          <button class="step" data-step="6"><span class="step-num">7</span><span class="step-label">Review Systems</span></button>
+          <button class="step" data-step="7"><span class="step-num">8</span><span class="step-label">Examination</span></button>
+          <button class="step" data-step="8"><span class="step-num">9</span><span class="step-label">Diagnosis</span></button>
+          <button class="step" data-step="9"><span class="step-num">10</span><span class="step-label">Treatment Plan</span></button>
+        </div>
+      </div>
+
+      <!-- Form Panels -->
+      <form id="case-form" autocomplete="off">
+        <!-- STEP 0: Demographics -->
+        <div class="form-panel active" data-panel="0">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 1: Demographics &amp; Registration</h2></div>
+            <div class="form-grid cols-3">
+              <div class="form-group">
+                <label for="pt-first-name">First Name <span class="req">*</span></label>
+                <input type="text" id="pt-first-name" placeholder="First name" required />
+              </div>
+              <div class="form-group">
+                <label for="pt-last-name">Last Name <span class="req">*</span></label>
+                <input type="text" id="pt-last-name" placeholder="Last name" required />
+              </div>
+              <div class="form-group">
+                <label for="pt-dob">Date of Birth <span class="req">*</span></label>
+                <input type="date" id="pt-dob" required />
+              </div>
+              <div class="form-group">
+                <label for="pt-age">Age</label>
+                <input type="number" id="pt-age" placeholder="Auto-calculated" readonly />
+              </div>
+              <div class="form-group">
+                <label for="pt-gender">Gender <span class="req">*</span></label>
+                <select id="pt-gender" required>
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pt-blood-group">Blood Group</label>
+                <select id="pt-blood-group">
+                  <option value="">Select</option>
+                  <option>A+</option><option>A-</option>
+                  <option>B+</option><option>B-</option>
+                  <option>AB+</option><option>AB-</option>
+                  <option>O+</option><option>O-</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="pt-phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="pt-phone" placeholder="+91 XXXXX XXXXX" required />
+              </div>
+              <div class="form-group">
+                <label for="pt-email">Email Address</label>
+                <input type="email" id="pt-email" placeholder="patient@email.com" />
+              </div>
+              <div class="form-group">
+                <label for="pt-occupation">Occupation</label>
+                <input type="text" id="pt-occupation" placeholder="e.g. Software Engineer, Teacher" />
+              </div>
+              <div class="form-group span-3">
+                <label for="pt-address">Residential Address</label>
+                <textarea id="pt-address" rows="2" placeholder="Full residential address"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Chief Complaint -->
+        <div class="form-panel" data-panel="1">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 2: Chief Complaint</h2></div>
+            <div class="form-grid cols-1">
+              <div class="form-group">
+                <label for="cc-complaint">Chief Complaint <span class="req">*</span></label>
+                <textarea id="cc-complaint" rows="3" placeholder="Primary complaint in patient's words…" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="cc-duration">Duration &amp; Onset</label>
+                <div class="input-row">
+                  <input type="number" id="cc-duration" placeholder="e.g. 4" />
+                  <select id="cc-duration-unit">
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                    <option value="years">Years</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cc-severity">Symptom Severity (1 - 10)</label>
+                <div class="severity-scale" id="cc-severity">
+                  <button type="button" class="severity-btn" data-val="1">1</button>
+                  <button type="button" class="severity-btn" data-val="2">2</button>
+                  <button type="button" class="severity-btn" data-val="3">3</button>
+                  <button type="button" class="severity-btn" data-val="4">4</button>
+                  <button type="button" class="severity-btn" data-val="5">5</button>
+                  <button type="button" class="severity-btn" data-val="6">6</button>
+                  <button type="button" class="severity-btn" data-val="7">7</button>
+                  <button type="button" class="severity-btn" data-val="8">8</button>
+                  <button type="button" class="severity-btn" data-val="9">9</button>
+                  <button type="button" class="severity-btn" data-val="10">10</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: HPI -->
+        <div class="form-panel" data-panel="2">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 3: History of Present Illness (OPQRST)</h2></div>
+            <div class="form-grid cols-1">
+              <div class="form-group">
+                <label for="hpi-narrative">Detailed Chronological History</label>
+                <textarea id="hpi-narrative" rows="4" placeholder="Detailed history of present illness…"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Past History -->
+        <div class="form-panel" data-panel="3">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 4: Past Medical History</h2></div>
+            <div class="form-grid cols-1">
+              <div class="form-group">
+                <label>Known Pre-existing Conditions</label>
+                <div class="checkbox-grid">
+                  <label class="check-item"><input type="checkbox" name="pmh" value="diabetes" /><span class="check-label">Diabetes</span></label>
+                  <label class="check-item"><input type="checkbox" name="pmh" value="hypertension" /><span class="check-label">Hypertension</span></label>
+                  <label class="check-item"><input type="checkbox" name="pmh" value="asthma" /><span class="check-label">Asthma/COPD</span></label>
+                  <label class="check-item"><input type="checkbox" name="pmh" value="thyroid" /><span class="check-label">Thyroid</span></label>
+                  <label class="check-item"><input type="checkbox" name="pmh" value="heart" /><span class="check-label">Heart Disease</span></label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="pmh-allergies">Drug &amp; Food Allergies</label>
+                <textarea id="pmh-allergies" rows="2" placeholder="List any known allergies…"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 to 9 (Additional Panels) -->
+        <div class="form-panel" data-panel="4">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 5: Family History</h2></div>
+            <div class="form-group"><label>Family Medical Notes</label><textarea id="fhx-notes" rows="3" placeholder="Family history notes…"></textarea></div>
+          </div>
+        </div>
+
+        <div class="form-panel" data-panel="5">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 6: Personal History &amp; Habits</h2></div>
+            <div class="form-grid cols-2">
+              <div class="form-group"><label>Diet</label><select id="ph-diet"><option>Vegetarian</option><option>Non-Vegetarian</option><option>Vegan</option></select></div>
+              <div class="form-group"><label>Smoking / Tobacco</label><select id="ph-smoking"><option>Never</option><option>Current</option><option>Former</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-panel" data-panel="6">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 7: Review of Systems</h2></div>
+            <div class="form-group"><label>Systemic Review Notes</label><textarea id="ros-notes" rows="3" placeholder="General, CVS, Respiratory, GI findings…"></textarea></div>
+          </div>
+        </div>
+
+        <div class="form-panel" data-panel="7">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 8: Vitals &amp; Physical Exam</h2></div>
+            <div class="vitals-grid">
+              <div class="vital-card"><label>Blood Pressure</label><input type="text" id="exam-bp" placeholder="120/80 mmHg" class="vital-input" /></div>
+              <div class="vital-card"><label>Pulse Rate</label><input type="text" id="exam-pulse" placeholder="72 bpm" class="vital-input" /></div>
+              <div class="vital-card"><label>SpO₂</label><input type="text" id="exam-spo2" placeholder="98%" class="vital-input" /></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-panel" data-panel="8">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 9: Diagnosis &amp; Clinical Assessment</h2></div>
+            <div class="form-group"><label>Provisional Diagnosis <span class="req">*</span></label><textarea id="dx-provisional" rows="2" placeholder="Primary diagnosis..." required></textarea></div>
+          </div>
+        </div>
+
+        <div class="form-panel" data-panel="9">
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Step 10: Treatment Plan &amp; Prescription</h2></div>
+            <div class="rx-table-wrap">
+              <table class="rx-table" id="rx-table">
+                <thead>
+                  <tr><th>Medicine</th><th>Dose</th><th>Frequency</th><th>Duration</th><th></th></tr>
+                </thead>
+                <tbody id="rx-body">
+                  <tr>
+                    <td><input type="text" placeholder="Medicine name" class="rx-input" /></td>
+                    <td><input type="text" placeholder="500mg" class="rx-input" /></td>
+                    <td><select class="rx-input"><option>OD (Once daily)</option><option>BD (Twice daily)</option><option>TID (Thrice daily)</option></select></td>
+                    <td><input type="text" placeholder="5 days" class="rx-input" /></td>
+                    <td><button type="button" class="btn-remove-rx">×</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="button" class="btn btn--outline btn--sm" id="btn-add-rx">+ Add Medicine</button>
+            </div>
+            <div class="form-group" style="margin-top:1.5rem;"><label>Doctor Advice</label><textarea id="tx-advice" rows="2" placeholder="Dietary &amp; general advice…"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Form Navigation -->
+        <div class="form-nav">
+          <button type="button" class="btn btn--outline" id="btn-prev-step" disabled>Previous</button>
+          <span id="step-indicator">Step 1 of 10</span>
+          <button type="button" class="btn btn--primary" id="btn-next-step">Next Step →</button>
+          <button type="submit" class="btn btn--success" id="btn-save-case" style="display:none;">Save Case Record</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ── VIEW: CASE HISTORY ── -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="view-case-history" class="view">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">All Clinical Case Records</h1>
+          <p class="view-subtitle">Search, view, print, or edit patient case archives</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="table-filters">
+            <div class="filter-search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="case-search" placeholder="Search case number, patient, diagnosis..." />
+            </div>
+            <select class="filter-select" id="case-filter-status">
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="followup">Follow-up</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="case-history-table">
+            <thead>
+              <tr>
+                <th>Case ID</th>
+                <th>Patient Name</th>
+                <th>Chief Complaint</th>
+                <th>Diagnosis</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- ── VIEW: SETTINGS (ADMIN ONLY) ── -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="view-settings" class="view">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Clinic &amp; Doctor Admin Settings</h1>
+          <p class="view-subtitle">Configure doctor credentials, security, and clinic branding</p>
+        </div>
+      </div>
+      <div class="settings-grid">
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">Doctor Admin Profile</h2></div>
+          <div class="form-grid cols-2">
+            <div class="form-group"><label>Doctor Full Name</label><input type="text" id="set-doc-name" value="Dr. Ravi Sharma" /></div>
+            <div class="form-group"><label>Medical Speciality</label><input type="text" id="set-doc-speciality" value="General Physician &amp; Internal Medicine" /></div>
+            <div class="form-group"><label>Medical Reg. No.</label><input type="text" id="set-doc-reg" value="MCI-987452" /></div>
+            <div class="form-group"><label>Qualifications</label><input type="text" id="set-doc-qualification" value="MBBS, MD" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════ TOAST ═══════════════ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ═══════════════ MODAL: MANUAL PATIENT ENTRY ═══════════════ -->
+  <div class="modal-overlay" id="modal-add-patient">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2>Manual Patient Registration (Full Form)</h2>
+        <button class="modal-close" id="modal-close-patient">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="manual-patient-form">
+          <div class="form-section-title">1. Basic Demographics</div>
+          <div class="form-grid cols-3">
+            <div class="form-group">
+              <label for="new-pt-first">First Name <span class="req">*</span></label>
+              <input type="text" id="new-pt-first" placeholder="First name" required />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-last">Last Name <span class="req">*</span></label>
+              <input type="text" id="new-pt-last" placeholder="Last name" required />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-dob">Date of Birth</label>
+              <input type="date" id="new-pt-dob" />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-gender">Gender <span class="req">*</span></label>
+              <select id="new-pt-gender" required>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="new-pt-blood">Blood Group</label>
+              <select id="new-pt-blood">
+                <option value="">Select</option>
+                <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="new-pt-aadhaar">Govt ID / Aadhaar / Passport</label>
+              <input type="text" id="new-pt-aadhaar" placeholder="XXXX-XXXX-XXXX" />
+            </div>
+          </div>
+
+          <div class="form-section-title" style="margin-top:1.5rem;">2. Contact &amp; Emergency Details</div>
+          <div class="form-grid cols-2">
+            <div class="form-group">
+              <label for="new-pt-phone">Phone Number <span class="req">*</span></label>
+              <input type="tel" id="new-pt-phone" placeholder="+91 XXXXX XXXXX" required />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-email">Email Address</label>
+              <input type="email" id="new-pt-email" placeholder="patient@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-emergency-name">Emergency Contact Person</label>
+              <input type="text" id="new-pt-emergency-name" placeholder="Relative / Guardian Name" />
+            </div>
+            <div class="form-group">
+              <label for="new-pt-emergency-phone">Emergency Phone</label>
+              <input type="tel" id="new-pt-emergency-phone" placeholder="Emergency contact number" />
+            </div>
+            <div class="form-group span-2">
+              <label for="new-pt-address">Residential Address</label>
+              <textarea id="new-pt-address" rows="2" placeholder="Full residential address"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--outline" id="modal-cancel-patient">Cancel</button>
+        <button type="button" class="btn btn--primary" id="modal-save-patient">Save Patient Record</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
