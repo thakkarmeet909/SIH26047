@@ -185,7 +185,15 @@ app.post('/api/patients', async (req, res) => {
       return res.status(400).json({ error: 'First name and Last name are required' });
     }
 
+    if (payload.gender) {
+      const g = payload.gender.toLowerCase();
+      payload.gender = g.startsWith('m') ? 'male' : g.startsWith('f') ? 'female' : 'other';
+    }
+
     if (supabase) {
+      if (!payload.patient_id) {
+        payload.patient_id = `PT-${Math.floor(1000 + Math.random() * 9000)}`;
+      }
       const { data, error } = await supabase.from('patients').insert([payload]).select();
       if (error) throw error;
       return res.status(201).json(data[0]);

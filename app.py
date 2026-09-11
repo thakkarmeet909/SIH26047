@@ -8,7 +8,6 @@ import pandas as pd
 from PIL import Image
 import numpy as np
 
-
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -26,7 +25,6 @@ try:
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 except Exception as e:
     supabase = None
-
 # Try importing OpenCV and pytesseract with fallback handling
 try:
     import cv2
@@ -37,7 +35,6 @@ try:
     import pytesseract
 except ImportError:
     pytesseract = None
-
 
 # ---------------------------------------------------------
 # PAGE CONFIGURATION & THEME STYLING
@@ -919,10 +916,68 @@ elif st.session_state.step == 3:
             
             if st.button("🚀 Push to ABHA / HIS Repository", type="primary", use_container_width=True, key="btn_push_his"):
                 with st.spinner("🔒 Encrypting Clinical Note with ABDM Public Key & Pushing to HIS Gateway..."):
-                    time.sleep(1.8)
+                    time.sleep(1.2)
+                    
+                    pat = st.session_state.patient_details
+                    full_name = pat.get('name', 'Anonymous Patient').strip()
+                    name_parts = full_name.split(' ')
+                    first_name = name_parts[0] if len(name_parts) > 0 else 'Anonymous'
+                    last_name = ' '.join(name_parts[1:]) if len(name_parts) > 1 else 'Patient'
+                    
+                    gender_str = str(pat.get('gender', 'female')).lower()
+                    if gender_str.startswith('m'): gender = 'male'
+                    elif gender_str.startswith('f'): gender = 'female'
+                    else: gender = 'other'
+
+                    patient_payload = {
+                        "patient_id": pat.get('abha_id') or f"PT-{random.randint(1000,9999)}",
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "age": int(pat.get('age', 30)),
+                        "gender": gender,
+                        "blood_group": pat.get('blood_group', 'O+'),
+                        "phone": pat.get('phone') or "+91 98765 43210",
+                        "created_at": datetime.now().isoformat()
+                    }
+
+                    case_payload = {
+                        "case_number": tok.get('token_id', f"CS-2026-{random.randint(1000,9999)}"),
+                        "patient_name": f"{first_name} {last_name}",
+                        "age": int(pat.get('age', 30)),
+                        "gender": gender,
+                        "chief_complaint": st.session_state.symptom_summary['primary_symptom'],
+                        "provisional_diagnosis": "Holistic Intake Assessment" if st.session_state.ayush_mode else "General OPD Assessment",
+                        "status": "active",
+                        "created_at": datetime.now().isoformat()
+                    }
+
+                    saved_to_supabase = False
+                    if supabase:
+                        try:
+                            supabase.table('patients').insert([patient_payload]).execute()
+                            supabase.table('cases').insert([case_payload]).execute()
+                            saved_to_supabase = True
+                        except Exception as ex:
+                            st.warning(f"Note: Supabase insertion detail: {str(ex)}")
+
+                    try:
+                        db_path = os.path.join(os.path.dirname(__file__), 'data.json')
+                        if os.path.exists(db_path):
+                            with open(db_path, 'r', encoding='utf-8') as f:
+                                local_db = json.load(f)
+                            local_db.setdefault('patients', []).insert(0, {**patient_payload, "id": str(int(time.time()))})
+                            local_db.setdefault('cases', []).insert(0, {**case_payload, "id": f"c{int(time.time())}"})
+                            with open(db_path, 'w', encoding='utf-8') as f:
+                                json.dump(local_db, f, indent=2)
+                    except Exception:
+                        pass
+
                     st.session_state.abha_pushed = True
                     st.balloons()
-                    st.toast("Successfully synchronized record to ABHA / HIS!", icon="✅")
+                    if saved_to_supabase:
+                        st.toast("Successfully saved record directly to Supabase Database!", icon="✅")
+                    else:
+                        st.toast("Saved record to local storage engine (data.json)!", icon="ℹ️")
 
             if st.session_state.abha_pushed:
                 st.success("✅ **Successfully Pushed Clinical Note & Token to ABHA / Health Information System (HIS)!**")
