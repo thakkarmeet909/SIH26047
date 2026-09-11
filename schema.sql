@@ -26,7 +26,8 @@ create table if not exists patients (
 create table if not exists cases (
   id uuid primary key default uuid_generate_v4(),
   case_number text unique not null,
-  patient_id uuid references patients(id) on delete cascade,
+  patient_id uuid references patients(id) on delete set null,
+  patient_name text,
   doctor_name text default 'Dr. Sharma',
   status text default 'active' check (status in ('active', 'followup', 'closed')),
   
@@ -68,7 +69,7 @@ create table if not exists cases (
   systemic_exam jsonb default '{}'::jsonb,
 
   -- Step 8: Diagnosis
-  provisional_diagnosis text not null,
+  provisional_diagnosis text default 'General Assessment',
   differential_diagnosis text,
   icd_code text,
   investigations text,

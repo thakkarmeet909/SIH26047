@@ -158,7 +158,9 @@ app.get('/api/patients', async (req, res) => {
     if (supabase) {
       const { data, error } = await supabase.from('patients').select('*').order('created_at', { ascending: false });
       if (error) throw error;
-      return res.json(data);
+      // Merge patient_name for frontend display consistency
+      const enriched = (data || []).map(p => ({ ...p, patient_name: `${p.first_name} ${p.last_name}` }));
+      return res.json(enriched);
     }
     const db = readLocalDb();
     // Strip passwords before sending
@@ -252,7 +254,7 @@ app.post('/api/patients', async (req, res) => {
 app.get('/api/cases', async (req, res) => {
   try {
     if (supabase) {
-      const { data, error } = await supabase.from('cases').select('*, patients(first_name, last_name)').order('created_at', { ascending: false });
+      const { data, error } = await supabase.from('cases').select('*').order('created_at', { ascending: false });
       if (error) throw error;
       return res.json(data);
     }
