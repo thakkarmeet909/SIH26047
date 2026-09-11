@@ -25,6 +25,7 @@ try:
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 except Exception as e:
     supabase = None
+
 # Try importing OpenCV and pytesseract with fallback handling
 try:
     import cv2
@@ -35,7 +36,6 @@ try:
     import pytesseract
 except ImportError:
     pytesseract = None
-
 # ---------------------------------------------------------
 # PAGE CONFIGURATION & THEME STYLING
 # ---------------------------------------------------------
